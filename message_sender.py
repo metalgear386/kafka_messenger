@@ -152,3 +152,4 @@ if __name__ == '__main__':
     LOGSRC = "gman"
     EXAMPLE_MESSAGES = ["1", "2", "3", "4"]
     SENDER.send_list_of_logs(EXAMPLE_MESSAGES)
+
