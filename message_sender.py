@@ -119,35 +119,3 @@ class LOGSENDER(object):
                 sys.exit(0)
             except TypeError as type_error:
                 print(type_error)
-
-if __name__ == '__main__':
-    def my_handler(exc_type, value, traceback_call):
-        """This method defines how exceptions will be written to log if they are
-        not caught exceptions.
-        """
-        print(str(exc_type))
-        print(traceback_call)
-        LOGGER.exception("Uncaught exception:" + str(value) + str(exc_type))
-
-    def start_logging(file_name):
-        """Starts logging on the machine, using the file name as the preface
-        to the log's name. We also check to see if the correct folder exists and
-        output error messages if it doesnt exist or doesnt have permission correctly.
-        """
-        logger = logging.getLogger(__name__)
-        logger.setLevel(logging.INFO)
-        handler = logging.FileHandler(file_name + ".log", mode='a')
-        handler.setLevel(logging.INFO)
-        formatting = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatting)
-        logger.addHandler(handler)
-        return logger
-
-    BASE = os.path.basename(__file__)
-    LOGGER = start_logging(BASE)
-    sys.excepthook = my_handler
-    LOGGER = start_logging(BASE)
-    SENDER = LOGSENDER()
-    LOGSRC = "gman"
-    EXAMPLE_MESSAGES = ["1", "2", "3", "4"]
-    SENDER.send_list_of_logs(EXAMPLE_MESSAGES)
