@@ -4,7 +4,6 @@ Author: Jeremy Gillespie
 """
 import logging
 import os
-import subprocess
 import sys
 import time
 import hashlib
@@ -19,7 +18,7 @@ class LOGSENDER(object):
     def __init__(self):
         """Here we create a connection to kafka endpoint brokers. We can give
         a list or just a single IP address here. Load balancing will still
-        occur with a single IP address. Edit the bootstrap_servers.py 
+        occur with a single IP address. Edit the bootstrap_servers.py
         file as needed.
         """
         self.msg_count = 1
@@ -152,4 +151,3 @@ if __name__ == '__main__':
     LOGSRC = "gman"
     EXAMPLE_MESSAGES = ["1", "2", "3", "4"]
     SENDER.send_list_of_logs(EXAMPLE_MESSAGES)
-
