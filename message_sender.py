@@ -90,11 +90,11 @@ class LOGSENDER(object):
                     msg_number = self.prep_msg_number()
                     transmit_time = self.prep_transmit_time()
                     msg = self.prep_msg(str(item))
-                    full_msg = "".join([log_src, msg_number, \
-                        transmit_time, msg])
+                    full_msg = "".join([log_src, msg_number, transmit_time, msg])
                     checksum = self.prep_checksum(full_msg)
-                    self.producer.send('events', "".join([full_msg, checksum]).encode())
+                    self.producer.send('Test', "".join([full_msg, checksum]).encode())
                     print(full_msg)
+                    self.producer.flush()
                     self.incr_msg_count()
                     #receipts.append(future)
                     #print('events', "".join([log_src, \
@@ -105,7 +105,7 @@ class LOGSENDER(object):
         return 0
 
     @staticmethod
-    def send_list_of_logs(list_of_messages):
+    def send_list_of_logs(SENDER, LOGSRC, list_of_messages):
         """This method sends a list of messages to the previously arranged
         kafka queue.
         """
