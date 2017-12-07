@@ -18,7 +18,4 @@ def check_for_msgs():
 
 if __name__ == "__main__":
     while True:
-        check_for_msgs() 
-
-                
-
+        check_for_msgs()
