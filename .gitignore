@@ -2,3 +2,5 @@
 *.pyc
 
 sender\.py\.log
+
+bootstrap_servers\.py
