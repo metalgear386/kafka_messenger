@@ -2,6 +2,7 @@
 """This program is used to send messages via command line input from the user.
 Author: Jeremy Gillespie
 """
+import getpass
 import logging
 import os
 import sys
@@ -34,8 +35,9 @@ LOGGER = start_logging(BASE)
 #sys.excepthook = my_handler
 LOGGER = start_logging(BASE)
 SENDER = ms.LOGSENDER()
-LOGSRC = "gman"
-#EXAMPLE_MESSAGES = ["1", "2", "3", "4"]
-MESSAGE = [str(input())]
-
-SENDER.send_list_of_logs(SENDER, LOGSRC, MESSAGE)
+#USER = getpass.getuser()
+USER = "Jim"
+while True:
+#def send_a_msg():
+        MESSAGE = [str(input(str(USER + ": ")))]
+        SENDER.send_list_of_logs(SENDER, USER, MESSAGE)
