@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json
 from kafka import KafkaConsumer
-TEST = KafkaConsumer('Tacos')
+TEST = KafkaConsumer('Test')
 
 print("Receiver is connected!")
 topics = []
@@ -12,10 +12,8 @@ def check_for_msgs():
         for msg in topic:
             print(msg)
             message = json.loads(msg.value.decode())
-            print(": ".join([message["user"], message["msg"]]))
-            break
-        break    
+            return ": ".join([message["user"], message["msg"]])  
 
 if __name__ == "__main__":
     while True:
-        check_for_msgs()
+        print(check_for_msgs())
