@@ -36,7 +36,7 @@ LOGGER = start_logging(BASE)
 LOGGER = start_logging(BASE)
 SENDER = ms.LOGSENDER()
 #USER = getpass.getuser()
-USER = "Jim"
+USER = "Jeremy"
 while True:
 #def send_a_msg():
         MESSAGE = [str(input(str(USER + ": ")))]
