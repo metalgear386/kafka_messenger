@@ -1,19 +1,20 @@
 #!/usr/bin/python3
 import json
 from kafka import KafkaConsumer
-TEST = KafkaConsumer('Test')
 
-print("Receiver is connected!")
-topics = []
-topics.append(TEST)
+class RECEIVER(object):
+    def __init__(self):
+        self.consumer = KafkaConsumer()#, auto_offset_reset="earliest")
+        self.consumer.subscribe(['Test'])
+        #print("Receiver is connected!")
 
-def check_for_msgs():
-    for topic in topics:
-        for msg in topic:
-            print(msg)
-            message = json.loads(msg.value.decode())
-            return ": ".join([message["user"], message["msg"]])  
+    def check_for_msgs(self):
+        for msg in self.consumer:
+                #print(msg)
+                message = json.loads(msg.value.decode())
+                return ": ".join([message["user"], message["msg"]])  
 
 if __name__ == "__main__":
+    rc = RECEIVER()
     while True:
-        print(check_for_msgs())
+        print(rc.check_for_msgs())
