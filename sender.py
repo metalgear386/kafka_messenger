@@ -2,10 +2,8 @@
 """This program is used to send messages via command line input from the user.
 Author: Jeremy Gillespie
 """
-import getpass
 import logging
 import os
-import sys
 import message_sender as ms
 
 def my_handler(exc_type, value, traceback_call):
@@ -39,5 +37,5 @@ SENDER = ms.LOGSENDER()
 USER = input("What is your name?  ")
 while True:
 #def send_a_msg():
-        MESSAGE = [str(input(str(USER + ": ")))]
-        SENDER.send_list_of_logs(SENDER, USER, MESSAGE)
+    MESSAGE = [str(input(str(USER + ": ")))]
+    SENDER.send_list_of_logs(SENDER, USER, MESSAGE)
