@@ -2,8 +2,6 @@
 """This program is the main message sender for kafka.
 Author: Jeremy Gillespie
 """
-import logging
-import os
 import sys
 import json
 import time
@@ -103,17 +101,17 @@ class LOGSENDER(object):
         return 0
 
     @staticmethod
-    def send_list_of_logs(SENDER, USER, list_of_messages):
+    def send_list_of_logs(sender, user, list_of_messages):
         """This method sends a list of messages to the previously arranged
         kafka queue.
         """
         for func in [ \
-            SENDER.send_log(list_of_messages, USER), \
+            sender.send_log(list_of_messages, user), \
             ]:
             try:
                 func
             except KeyboardInterrupt:
-                LOGGER.info("Exited cleanly with KeyboardInterrupt.")
+                #LOGGER.info("Exited cleanly with KeyboardInterrupt.")
                 sys.exit(0)
             except TypeError as type_error:
                 print(type_error)
