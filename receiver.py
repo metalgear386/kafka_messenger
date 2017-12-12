@@ -12,7 +12,7 @@ class RECEIVER(object):
         """This creates a new consumer and starts comsuming from the latest
         message for a topic
         """
-        self.consumer = KafkaConsumer()#, auto_offset_reset="earliest")
+        self.consumer = KafkaConsumer()
         self.consumer.subscribe(['Test'])
         #print("Receiver is connected!")
 
@@ -31,6 +31,11 @@ class RECEIVER(object):
         """
         self.consumer = KafkaConsumer(auto_offset_reset="earliest")
         self.consumer.subscribe(['Test'])
+        for msg in self.consumer:
+            #print(msg)
+            message = json.loads(msg.value.decode())
+            return ": ".join([message["user"], message["msg"]])
+
 
 if __name__ == "__main__":
     RC = RECEIVER()

@@ -7,11 +7,12 @@ import asyncio
 import websockets
 import receiver as rc
 
-async def receive_msgs(websocket):
+async def receive_msgs(websocket, path):
     """This creates a new receiver object that consumes messages from the kafka queue.
     As each message is consumed, we send that message contents to the users' websocket.
     This makes messages appear on their side, that used to be in the queue.
     """
+    path = path
     newrc = rc.RECEIVER()
     while True:
         await websocket.send(newrc.check_for_msgs())
