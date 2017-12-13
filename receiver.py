@@ -13,7 +13,7 @@ class RECEIVER(object):
         message for a topic
         """
         self.consumer = KafkaConsumer()
-        self.consumer.subscribe(['Test'])
+        
         #print("Receiver is connected!")
 
     def check_for_msgs(self):
@@ -35,6 +35,9 @@ class RECEIVER(object):
             #print(msg)
             message = json.loads(msg.value.decode())
             return ": ".join([message["user"], message["msg"]])
+
+    def subscribe_to_topic(self, topic):
+        self.consumer.subscribe([topic])
 
 
 if __name__ == "__main__":

@@ -1,29 +1,48 @@
 #!/usr/bin/python3
-
+import random
+import time
+import sys
 import npyscreen
-class TestApp(npyscreen.NPSApp):
-    def main(self):
-        # These lines create the form and populate it with widgets.
-        # A fairly complex screen in only 8 or so lines of code - a line for each control.
-        F  = npyscreen.Form(name = "Welcome to Npyscreen",)
-        t  = F.add(npyscreen.TitleText, name = "Text:",)
-        fn = F.add(npyscreen.TitleFilename, name = "Filename:")
-        fn2 = F.add(npyscreen.TitleFilenameCombo, name="Filename2:")
-        dt = F.add(npyscreen.TitleDateCombo, name = "Date:")
-        s  = F.add(npyscreen.TitleSlider, out_of=12, name = "Slider")
-        ml = F.add(npyscreen.MultiLineEdit,
-               value = """try typing here!\nMutiline text, press ^R to reformat.\n""",
-               max_height=5, rely=9)
-        ms = F.add(npyscreen.TitleSelectOne, max_height=4, value = [1,], name="Pick One",
-                values = ["Option1","Option2","Option3"], scroll_exit=True)
-        ms2= F.add(npyscreen.TitleMultiSelect, max_height =-2, value = [1,], name="Pick Several",
-                values = ["Option1","Option2","Option3"], scroll_exit=True)
+import receiver as rc
 
-        # This lets the user interact with the Form.
-        F.edit()
+class App(npyscreen.NPSAppManaged):
+    def onStart(self):
+        self.addForm("MAIN", FormObject, name = "Topic Subscriber")
 
-        print(ms.get_selected_objects())
+class FormObject(npyscreen.ActionForm):
+    def create (self):
+        #self.keybindings = {curses.ascii.ESC: self.on_cancel, "^Q":self.on_cancel }
+        self.topic_name = self.add(npyscreen.TitleText, name = "Topic Name:")
+        self.sub_choice = self.add(npyscreen.TitleSelectOne, max_height=4, value = [0,], name="Pick One",
+            values = ["Subscribe","Subscribe from beginning", "Unsubscribe"], scroll_exit=True, scroll_end=True, scroll_if_editing=False)
+        self.btn = self.add(execute_button, name = "Execute")
+        #self.txt = self.add(npyscreen.TitleText, name = "txt1", value = "Default")
+        self.mypager = self.add(npyscreen.BufferPager, scroll_exit=True)
+        self.mypager.buffer(["No Data"])
+
+
+class execute_button(npyscreen.MiniButtonPress):
+    def whenPressed(self):
+        newrc = rc.RECEIVER()
+        self.parent.mypager.clearBuffer()
+        #self.parent.mypager.buffer(["Tacos!"])
+        if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe':
+            newrc.subscribe_to_topic(str(self.parent.topic_name.value))
+            self.parent.mypager.buffer(["Subscribed to " + str(self.parent.topic_name.value) ])
+        #self.parent.mypager.buffer([str(self.parent.sub_choice.get_selected_objects()) + " subscribed!"])
+        self.parent.display()
+        self.show_messages(newrc)
+
+    def show_messages(self, newrc):
+        #self.parent.notify_wait("Update")
+        self.parent.mypager.buffer([newrc.check_for_msgs()])
+        self.parent.display()
+        
+    #def while_waiting(self):
+    #    npyscreen.notify_wait("Update")
+
 
 if __name__ == "__main__":
-    App = TestApp()
-    App.run()
+    App = App().run()
+
+    #print(npyscreen.wrapper_basic(TestApp.run()))
