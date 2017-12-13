@@ -25,6 +25,8 @@ class RECEIVER(object):
             message = json.loads(msg.value.decode())
             return ": ".join([message["user"], message["msg"]])
 
+
+
     def get_all_msgs(self):
         """This method gets all messages in the history for a queue. Allows a user
         to see the past messages that happened while they weren't logged in.
@@ -42,5 +44,6 @@ class RECEIVER(object):
 
 if __name__ == "__main__":
     RC = RECEIVER()
+    RC.subscribe_to_topic("Test")
     while True:
         print(RC.check_for_msgs())
