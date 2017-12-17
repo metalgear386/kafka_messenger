@@ -6,18 +6,17 @@ import curses
 from datetime import datetime
 import npyscreen
 import receiver as rc
+import message_sender as ms
 
 class App(npyscreen.NPSAppManaged):
     def onStart(self):
         self.addForm("MAIN", FormObject, name = "Kafka Messenger")     
         self.newrc = rc.RECEIVER()
-    
+
 class FormObject(npyscreen.ActionForm):
     
     def create(self):
-        self.add_handlers({
-            "^A": self.send_message("asdf")
-        })
+
         self.msg_count = 0
         self.keypress_timeout = 1
         
@@ -29,12 +28,12 @@ class FormObject(npyscreen.ActionForm):
         #self.getmsgs = self.add(get_messages, name = "Get Messages")
         self.username = self.add(npyscreen.TitleText, scroll_exit=True, name = "Username:")
         self.sending_topic = self.add(npyscreen.TitleText, scroll_exit=True, name = "Topic:")
-        self.msg_input_field = self.add(npyscreen.TitleText, scroll_exit=True, name = "Message:")
+        self.send_msg = self.add(send_msg, scroll_exit=True, name = "Message:")
+        #self.msg_input_field = self.add(npyscreen.TitleText, scroll_exit=True, name = "Message:")
         self.mypager = self.add(npyscreen.BufferPager, scroll_exit=True, scroll_end=True,\
             scroll_if_editing=True, editable=False)
         self.mypager.buffer(["Subribe to a topic to get started..."])
 
-#self.msg_input_field.value
     def show_messages(self):
         message_not_received = True 
         try:
@@ -56,12 +55,26 @@ class FormObject(npyscreen.ActionForm):
         self.display()
         #print(self.msg_count)
             
-    def send_message(self, message):
-        print(message)
+    def send_message(self, args):
+        #print(args)
+        SENDER = ms.LOGSENDER()
+        USER = self.username.value
+        MESSAGE = [self.send_msg.value]
+        SENDER.send_list_of_logs(SENDER, USER, MESSAGE)
+        self.send_msg.value = ''
         self.display() 
 
     def clear_msgsend_buffer(self):
         pass
+
+class send_msg(npyscreen.Textfield):
+    def set_up_handlers(self):
+        super(send_msg, self).set_up_handlers()
+        self.handlers.update({
+            10 : self.parent.send_message,
+            13 : self.parent.send_message
+        })
+        
 
 class get_messages(npyscreen.MiniButtonPress):
     def whenPressed(self):
