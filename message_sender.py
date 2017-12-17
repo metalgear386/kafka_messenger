@@ -25,7 +25,7 @@ class LOGSENDER(object):
         while connected != True:
             try:
                 self.producer = kafka.KafkaProducer(bootstrap_servers=servers.ips)
-                print("Sender is connected!")
+                #print("Sender is connected!")
                 connected = True
             except kafka.errors.NoBrokersAvailable as nobrokers:
                 print(str(nobrokers))
