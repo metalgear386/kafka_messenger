@@ -18,20 +18,17 @@ class FormObject(npyscreen.ActionForm):
     def create(self):
         self.msg_count = 0
         self.keypress_timeout = 1
-        
         self.topic_name = self.add(npyscreen.TitleText, scroll_exit=True, name = "Topic Subscription")
         self.btn = self.add(execute_button, name = "Execute")
         self.sub_choice = self.add(npyscreen.TitleSelectOne, name = "Pick One", max_height=4,\
-            value = [0,], values = ["Subscribe","Subscribe from beginning", "Unsubscribe"],\
-            scroll_exit=True, scroll_end=True)
-       
+            value = [0,], values = ["Subscribe", "Unsubscribe"], scroll_exit=True, scroll_end=True)
         self.username = self.add(npyscreen.TitleText, scroll_exit=True, name = "Username:")
         self.sending_topic = self.add(npyscreen.TitleText, scroll_exit=True, name = "Topic:")
         self.send_msg = self.add(send_msg, scroll_exit=True, name = "Message:")
         #self.msg_input_field = self.add(npyscreen.TitleText, scroll_exit=True, name = "Message:")
         self.mypager = self.add(npyscreen.BufferPager, scroll_exit=True, scroll_end=True,\
             scroll_if_editing=True, editable=False)
-        self.mypager.buffer(["Subribe to a topic to get started..."])
+        self.mypager.buffer(["Subcribe to a topic to get started..."])
 
     def show_messages(self):
         message_not_received = True 
@@ -80,7 +77,8 @@ class execute_button(npyscreen.MiniButtonPress):
         if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe':
             self.parent.parentApp.newrc.subscribe_to_topic(str(self.parent.topic_name.value))
             self.parent.mypager.buffer(["Subscribed to " + str(self.parent.topic_name.value) ])
-        if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe from beginning':
+        if self.parent.sub_choice.get_selected_objects()[0] == 'Unsubscribe':
+            
             pass
 
         self.parent.display()
