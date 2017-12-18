@@ -16,16 +16,15 @@ class App(npyscreen.NPSAppManaged):
 class FormObject(npyscreen.ActionForm):
     
     def create(self):
-
         self.msg_count = 0
         self.keypress_timeout = 1
         
         self.topic_name = self.add(npyscreen.TitleText, scroll_exit=True, name = "Topic Subscription")
+        self.btn = self.add(execute_button, name = "Execute")
         self.sub_choice = self.add(npyscreen.TitleSelectOne, name = "Pick One", max_height=4,\
             value = [0,], values = ["Subscribe","Subscribe from beginning", "Unsubscribe"],\
             scroll_exit=True, scroll_end=True)
-        self.btn = self.add(execute_button, name = "Execute")
-        #self.getmsgs = self.add(get_messages, name = "Get Messages")
+       
         self.username = self.add(npyscreen.TitleText, scroll_exit=True, name = "Username:")
         self.sending_topic = self.add(npyscreen.TitleText, scroll_exit=True, name = "Topic:")
         self.send_msg = self.add(send_msg, scroll_exit=True, name = "Message:")
@@ -40,7 +39,7 @@ class FormObject(npyscreen.ActionForm):
             msgs = self.parentApp.newrc.check_for_msgs()
             if msgs:
                 self.mypager.buffer(msgs)
-                #self.display()
+                self.display()
         except Exception as e:
             #self.display()
             pass
@@ -60,12 +59,10 @@ class FormObject(npyscreen.ActionForm):
         SENDER = ms.LOGSENDER()
         USER = self.username.value
         MESSAGE = [self.send_msg.value]
-        SENDER.send_list_of_logs(SENDER, USER, MESSAGE)
+        TOPIC = self.sending_topic.value
+        SENDER.send_list_of_logs(SENDER, USER, MESSAGE, TOPIC)
         self.send_msg.value = ''
         self.display() 
-
-    def clear_msgsend_buffer(self):
-        pass
 
 class send_msg(npyscreen.Textfield):
     def set_up_handlers(self):
@@ -76,11 +73,6 @@ class send_msg(npyscreen.Textfield):
         })
         
 
-class get_messages(npyscreen.MiniButtonPress):
-    def whenPressed(self):
-        self.parent.show_messages()
-        #self.parent.display()
-
 class execute_button(npyscreen.MiniButtonPress):
     def whenPressed(self):
         self.parent.mypager.clearBuffer()
@@ -88,9 +80,10 @@ class execute_button(npyscreen.MiniButtonPress):
         if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe':
             self.parent.parentApp.newrc.subscribe_to_topic(str(self.parent.topic_name.value))
             self.parent.mypager.buffer(["Subscribed to " + str(self.parent.topic_name.value) ])
+        if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe from beginning':
+            pass
+
         self.parent.display()
         
 if __name__ == "__main__":
     App = App().run()
-
-    #print(npyscreen.wrapper_basic(App().run()))
