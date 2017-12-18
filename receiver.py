@@ -42,6 +42,10 @@ class RECEIVER(object):
         self.topics_subbed.append(topic)
         self.consumer.subscribe(self.topics_subbed)
 
+    def unsubscribe_from_topic(self, topic):
+        self.topics_subbed.remove(topic)
+        self.consumer.subscribe(self.topics_subbed)
+
 
 if __name__ == "__main__":
     RC = RECEIVER()
