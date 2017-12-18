@@ -8,7 +8,7 @@ import time
 import hashlib
 import kafka
 import strict_rfc3339
-import bootstrap_servers as servers
+#import bootstrap_servers as servers
 
 
 class LOGSENDER(object):
