@@ -72,14 +72,13 @@ class send_msg(npyscreen.Textfield):
 
 class execute_button(npyscreen.MiniButtonPress):
     def whenPressed(self):
-        self.parent.mypager.clearBuffer()
-        #self.parent.mypager.buffer(["Tacos!"])
         if self.parent.sub_choice.get_selected_objects()[0] == 'Subscribe':
             self.parent.parentApp.newrc.subscribe_to_topic(str(self.parent.topic_name.value))
             self.parent.mypager.buffer(["Subscribed to " + str(self.parent.topic_name.value) ])
         if self.parent.sub_choice.get_selected_objects()[0] == 'Unsubscribe':
+            self.parent.parentApp.newrc.unsubscribe_from_topic(str(self.parent.topic_name.value))
+            self.parent.mypager.buffer(["Unsubscribed from " + str(self.parent.topic_name.value) ])
             
-            pass
 
         self.parent.display()
         

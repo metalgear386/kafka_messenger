@@ -44,8 +44,8 @@ class RECEIVER(object):
 
     def unsubscribe_from_topic(self, topic):
         self.topics_subbed.remove(topic)
+        self.consumer.unsubscribe()
         self.consumer.subscribe(self.topics_subbed)
-
 
 if __name__ == "__main__":
     RC = RECEIVER()
