@@ -79,22 +79,13 @@ class LOGSENDER(object):
         for item in msg_list:
             try:
                 if item:
-                    #msg_number = self.prep_msg_number()
                     msg_contents.update({"msg_number": self.prep_msg_number()})
-                    #transmit_time = self.prep_transmit_time()
                     msg_contents.update({"transmit_time": self.prep_transmit_time()})
-                    #msg = self.prep_msg(str(item))
                     msg_contents.update({"msg": self.prep_msg(str(item))})
-                    #full_msg = "".join([log_src, msg_number, transmit_time, msg])
-                    #checksum = self.prep_checksum(full_msg)
-                    #self.producer.send('Test', "".join([full_msg, checksum]).encode())
                     self.producer.send(topic, json.dumps(msg_contents).encode())
-                    #print(full_msg)
                     self.producer.flush()
                     self.incr_msg_count()
-                    #receipts.append(future)
-                    #print('events', "".join([log_src, \
-                    #msg_number, transmit_time, msg]).encode())
+
             except (NameError, AttributeError) as exception:
                 #LOGGER.warning("Failed to send message: " + item + " Exception-->" + exception)
                 print(exception)
