@@ -7,6 +7,7 @@ This project is converting to a TUI project.
 To Do...
 
 Make this more accessible to just about anyone. I've had some decent success is test piloting it to a small group.
+
 Find a way to stop spamming, or possibly just ingest messages faster. Right not we consume too slowly to handle a large amount of spam, but of course you could just change topic.
 
 List the currently subscribed to topics. It would be nice to see what all topics I am subscribed to.
