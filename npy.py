@@ -27,7 +27,7 @@ class FormObject(npyscreen.ActionForm):
         self.send_msg = self.add(send_msg, scroll_exit=True, name = "Message:")
         #self.msg_input_field = self.add(npyscreen.TitleText, scroll_exit=True, name = "Message:")
         self.mypager = self.add(npyscreen.BufferPager, scroll_exit=True, scroll_end=True,\
-            scroll_if_editing=True, editable=False)
+            scroll_if_editing=True, editable=False, exit_left=True, exit_right=True)
         self.mypager.buffer(["Subcribe to a topic to get started..."])
 
     def show_messages(self):
