@@ -15,7 +15,7 @@ class RECEIVER(object):
         """
         print("Connecting...")
         #self.consumer = KafkaConsumer(bootstrap_servers=['35.161.252.11'], request_timeout_ms = 10000, session_timeout_ms = 5000, heartbeat_interval_ms = 4000)
-        self.consumer = KafkaConsumer(bootstrap_servers=['localhost'], request_timeout_ms = 10000, session_timeout_ms = 5000, heartbeat_interval_ms = 4000)
+        self.consumer = KafkaConsumer()
         self.topics_subbed = []
 
     def check_for_msgs(self):

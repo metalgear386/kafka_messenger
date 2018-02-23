@@ -25,7 +25,7 @@ class LOGSENDER(object):
         while connected != True:
             try:
                 #self.producer = kafka.KafkaProducer(bootstrap_servers=['35.161.252.11'])
-                self.producer = kafka.KafkaProducer(bootstrap_servers=['localhost'])
+                self.producer = kafka.KafkaProducer()
                 #print("Sender is connected!")
                 connected = True
             except kafka.errors.NoBrokersAvailable as nobrokers:
